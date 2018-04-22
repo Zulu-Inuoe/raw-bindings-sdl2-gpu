@@ -19,9 +19,6 @@
 (defgpuconstant +gpu-false+ 0)
 (defgpuconstant +gpu-true+ 1)
 
-(fdeclgpu (:struct gpu-renderer))
-(fdeclgpu (:struct gpu-target))
-
 (defgpustruct gpu-rect
   (x :float)
   (y :float)
@@ -127,9 +124,9 @@
   +gpu-file-tga+)
 
 (defgpustruct gpu-image
-  (renderer (:pointer (:struct gpu-renderer)))
-  (context-target (:pointer gpu-target))
-  (target (:pointer gpu-target))
+  (renderer :pointer)
+  (context-target :pointer)
+  (target :pointer)
   (w :uint16)
   (h :uint16)
   (using-virtual-resolution gpu-bool)
@@ -143,9 +140,9 @@
   (has-mipmaps gpu-bool)
   (anchor-x :float)
   (anchor-y :float)
-  (color sdl-color)
+  (color (:struct sdl-color))
   (use-blending gpu-bool)
-  (blend-mode gpu-blend-mode)
+  (blend-mode (:struct gpu-blend-mode))
   (filter-mode gpu-filter-enum)
   (snap-mode gpu-snap-enum)
   (wrap-mode-x gpu-wrap-enum)
@@ -188,23 +185,23 @@
   (current-shader-program :uint32)
   (default-textured-shader-program :uint32)
   (default-untextured-shader-program :uint32)
-  (current-shader-block gpu-shader-block)
-  (default-textured-shader-block gpu-shader-block)
-  (default-untextured-shader-block gpu-shader-block)
+  (current-shader-block (:struct gpu-shader-block))
+  (default-textured-shader-block (:struct gpu-shader-block))
+  (default-untextured-shader-block (:struct gpu-shader-block))
   (shapes-use-blending gpu-bool)
-  (shapes-blend-mode gpu-blend-mode)
+  (shapes-blend-mode (:struct gpu-blend-mode))
   (line-thickness :float)
   (use-texturing gpu-bool)
   (matrix-mode :int)
-  (projection-matrix gpu-matrix-stack)
-  (modelview-matrix gpu-matrix-stack)
+  (projection-matrix (:struct gpu-matrix-stack))
+  (modelview-matrix (:struct gpu-matrix-stack))
   (refcount :int)
   (data :pointer))
 
 (defgpustruct gpu-target
-  (renderer (:pointer (:struct gpu-renderer)))
-  (context-target (:pointer gpu-target))
-  (image (:pointer gpu-image))
+  (renderer :pointer)
+  (context-target :pointer)
+  (image (:pointer (:struct gpu-image)))
   (data (:pointer :void))
   (w :uint16)
   (h :uint16)
@@ -212,15 +209,15 @@
   (base-w :uint16)
   (base-h :uint16)
   (use-clip-rect gpu-bool)
-  (clip-rect gpu-rect)
+  (clip-rect (:struct gpu-rect))
   (use-color gpu-bool)
-  (color sdl-color)
-  (viewport gpu-rect)
-  (camera gpu-camera)
+  (color (:struct sdl-color))
+  (viewport (:struct gpu-rect))
+  (camera (:struct gpu-camera))
   (use-camera gpu-bool)
   (use-depth-test gpu-bool)
   (use-depth-write gpu-bool)
-  (context (:pointer gpu-context))
+  (context (:pointer (:struct gpu-context)))
   (refcount :int)
   (is-alias gpu-bool))
 
@@ -451,15 +448,15 @@
 (defgpufun ("GPU_GetDebugLevel" gpu-get-debug-level) gpu-debug-level-enum)
 
 (defgpufun ("GPU_LogInfo" gpu-log-info) :void
-  (format (:struct :encoding :utf-8))
+  (format (:string :encoding :utf-8))
   &rest)
 
 (defgpufun ("GPU_LogWarning" gpu-log-warning) :void
-  (format (:struct :encoding :utf-8))
+  (format (:string :encoding :utf-8))
   &rest)
 
 (defgpufun ("GPU_LogError" gpu-log-error) :void
-  (format (:struct :encoding :utf-8))
+  (format (:string :encoding :utf-8))
   &rest)
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
