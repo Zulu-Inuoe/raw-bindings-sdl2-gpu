@@ -19,8 +19,8 @@
 (defgpuconstant +gpu-false+ 0)
 (defgpuconstant +gpu-true+ 1)
 
-(fdeclgpu (:struct gpu-renderer))
-(fdeclgpu (:struct gpu-target))
+;; (fdeclgpu (:struct gpu-renderer))
+;; (fdeclgpu (:struct gpu-target))
 
 (defgpustruct gpu-rect
   (x :float)
@@ -127,9 +127,12 @@
   +gpu-file-tga+)
 
 (defgpustruct gpu-image
-  (renderer (:pointer gpu-renderer))
-  (context-target (:pointer gpu-target))
-  (target (:pointer gpu-target))
+  (renderer :pointer ; (:pointer gpu-renderer)
+            )
+  (context-target :pointer ; (:pointer gpu-target)
+                  )
+  (target :pointer ; (:pointer gpu-target)
+          )
   (w :uint16)
   (h :uint16)
   (using-virtual-resolution gpu-bool)
